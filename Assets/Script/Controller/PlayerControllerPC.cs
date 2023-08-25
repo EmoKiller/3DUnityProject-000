@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -27,17 +28,22 @@ public class PlayerControllerPC : MonoBehaviour
     [SerializeField] private Vector3 targetmove;
     [SerializeField] private HeroAnimatorController ani = null;
     [SerializeField] private Rigidbody rb = null;
+    [SerializeField] private List<ChildrenDirectionMove> directionMove = null;
     //[SerializeField] private JoyStickLManager joystickLManager = null;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         ani = GetComponent<HeroAnimatorController>();
+        directionMove = GetComponentsInChildren<ChildrenDirectionMove>().ToList();
+        foreach (var Move in directionMove)
+            Move.OnSelected = OnTabSelected;
         //joystickLManager = GameObject.FindGameObjectWithTag("JoyStickManager").GetComponent<JoyStickLManager>();
         isAlive = true;
     }
     void Start()
     {
+        
         
     }
 
@@ -50,10 +56,24 @@ public class PlayerControllerPC : MonoBehaviour
         //}
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            Debug.Log("ATK J Down");
-            ani.Attack();
+            Debug.Log("ATK D Down");
+            directionMove[3].isOn = true;
+            foreach (var Move in directionMove)
+            {
+                Move.myEvent.Invoke();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Debug.Log("ATK D Down");
+            directionMove[2].isOn = true;
+            foreach (var Move in directionMove)
+            {
+
+                Move.myEvent.Invoke();
+            }
         }
         if (Input.GetKey(KeyCode.K))
         {
@@ -86,16 +106,20 @@ public class PlayerControllerPC : MonoBehaviour
     }
     private void Move()
     {
-        
-        if (horizontalDown )
+        if (horizontalDown || verticalDown)
+        {
+            targetmove = targetVelocity.normalized;
+
+        }
+        if (horizontalDown)
         {
             float eulerAngleY = horizontal < 0 ? 180 : 0;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, eulerAngleY, transform.eulerAngles.z);
+            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, eulerAngleY, transform.eulerAngles.z);
         }
 
         if (!isRolling)
         {
-            targetVelocity = new Vector3(horizontal, vertical) * moveSpeed * mutiRun;
+            targetVelocity = new Vector3(horizontal,0, vertical) * moveSpeed * mutiRun;
             rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref refVelocity, smoothTime);
         }
     }
@@ -105,11 +129,7 @@ public class PlayerControllerPC : MonoBehaviour
     }
     private void Roll()
     {
-        if (horizontalDown || verticalDown)
-        {
-            targetmove = targetVelocity.normalized;
-            
-        }
+        
         if (isRolling)
         {
             
@@ -126,5 +146,14 @@ public class PlayerControllerPC : MonoBehaviour
                 CounttimeStopRoll = 0;
             }
         }
+    }
+    private void OnTabSelected(DirectionMove type)
+    {
+        foreach (var move in directionMove)
+        {
+            move.gameObject.SetActive(move.direction == type);
+            
+        }
+        
     }
 }

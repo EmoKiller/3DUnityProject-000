@@ -9,6 +9,13 @@ public enum HeroClassType
     Healer,
     Assassins
 }
+public enum DirectionMove
+{
+    Front,
+    Back,
+    Left,
+    Right
+}
 public enum AttributeTypeOfHero
 {
     baseAttribute,
