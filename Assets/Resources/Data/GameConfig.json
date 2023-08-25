@@ -1,0 +1,126 @@
+{
+	"heroConfig" : {
+		"heroClass" : {
+			"warrior" : {
+				"baseAttribute" : {
+					"HP" : {
+						"Type" : "0",
+						"value" : "125"
+					},
+					"MP" : {
+						"Type" : "1",
+						"value" : "80"
+					},
+					"SP" : {
+						"Type" : "2",
+						"value" : "100"
+					},
+					"ATK" : {
+						"Type" : "3",
+						"value" : "15"
+					},
+					"SPD" : {
+						"Type" : "4",
+						"value" : "10"
+					},
+					"DFS" : {
+						"Type" : "5",
+						"value" : "20"
+					},
+					"CRIT" : {
+						"Type" : "6",
+						"value" : "0"
+					},
+					"HEALING" : {
+						"Type" : "7",
+						"value" : "0"
+					},
+					"SPEED" : {
+						"Type" : "8",
+						"value" : "3"
+					}
+				}
+			},
+			"archer" : {
+				"baseAttribute" : {
+					"HP" : {
+						"Type" : "0",
+						"value" : "90"
+					},
+					"MP" : {
+						"Type" : "1",
+						"value" : "100"
+					},
+					"SP" : {
+						"Type" : "2",
+						"value" : "100"
+					},
+					"ATK" : {
+						"Type" : "3",
+						"value" : "10"
+					},
+					"SPD" : {
+						"Type" : "4",
+						"value" : "20"
+					},
+					"DFS" : {
+						"Type" : "5",
+						"value" : "10"
+					},
+					"CRIT" : {
+						"Type" : "6",
+						"value" : "0"
+					},
+					"HEALING" : {
+						"Type" : "7",
+						"value" : "0"
+					},
+					"SPEED" : {
+						"Type" : "8",
+						"value" : "4"
+					}
+				}
+			},
+			"magican" : {
+				"baseAttribute" : {
+					"HP" : {
+						"Type" : "0",
+						"value" : "100"
+					},
+					"MP" : {
+						"Type" : "1",
+						"value" : "100"
+					},
+					"SP" : {
+						"Type" : "2",
+						"value" : "100"
+					},
+					"ATK" : {
+						"Type" : "3",
+						"value" : "10"
+					},
+					"SPD" : {
+						"Type" : "4",
+						"value" : "10"
+					},
+					"DFS" : {
+						"Type" : "5",
+						"value" : "10"
+					},
+					"CRIT" : {
+						"Type" : "6",
+						"value" : "0"
+					},
+					"HEALING" : {
+						"Type" : "7",
+						"value" : "0"
+					},
+					"SPEED" : {
+						"Type" : "8",
+						"value" : "4"
+					}
+				}
+			}
+		}
+	}
+}
