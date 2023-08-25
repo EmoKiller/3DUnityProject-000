@@ -43,8 +43,8 @@ public class PlayerControllerPC : MonoBehaviour
     }
     void Start()
     {
-        
-        
+        InvokeMove(1);
+
     }
 
     void Update()
@@ -56,25 +56,19 @@ public class PlayerControllerPC : MonoBehaviour
         //}
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        if (Input.GetKeyDown(KeyCode.D))
+        
+        
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
         {
-            Debug.Log("ATK D Down");
-            directionMove[3].isOn = true;
-            foreach (var Move in directionMove)
-            {
-                Move.myEvent.Invoke();
-            }
+            int num = horizontal > 0 ? 3 : 2;
+            InvokeMove(num);
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
         {
-            Debug.Log("ATK D Down");
-            directionMove[2].isOn = true;
-            foreach (var Move in directionMove)
-            {
+            int num = vertical > 0 ? 1 : 0;
+            InvokeMove(num);
+        }
 
-                Move.myEvent.Invoke();
-            }
-        }
         if (Input.GetKey(KeyCode.K))
         {
             Debug.Log("DEF K Down");
@@ -111,12 +105,6 @@ public class PlayerControllerPC : MonoBehaviour
             targetmove = targetVelocity.normalized;
 
         }
-        if (horizontalDown)
-        {
-            float eulerAngleY = horizontal < 0 ? 180 : 0;
-            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, eulerAngleY, transform.eulerAngles.z);
-        }
-
         if (!isRolling)
         {
             targetVelocity = new Vector3(horizontal,0, vertical) * moveSpeed * mutiRun;
@@ -125,7 +113,7 @@ public class PlayerControllerPC : MonoBehaviour
     }
     private void Jump()
     {
-        transform.DOJump(transform.localPosition + targetmove, 1f,1,2f);
+        transform.DOJump(transform.localPosition + targetmove, 1f,1,0.5f);
     }
     private void Roll()
     {
@@ -152,8 +140,15 @@ public class PlayerControllerPC : MonoBehaviour
         foreach (var move in directionMove)
         {
             move.gameObject.SetActive(move.direction == type);
-            
         }
         
+    }
+    private void InvokeMove(int num)
+    {
+        directionMove[num].ToggleOn();
+        foreach (var Move in directionMove)
+        {
+            Move.myEvent.Invoke();
+        }
     }
 }

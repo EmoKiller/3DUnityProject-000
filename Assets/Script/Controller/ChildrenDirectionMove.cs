@@ -19,8 +19,6 @@ public class ChildrenDirectionMove : MonoBehaviour
     {
         if (isOn)
             OnSelected?.Invoke(direction);
-        Debug.Log("directionMove" + direction);
-        Debug.Log("isOn" + isOn);
         isOn = false;
     }
     public void ToggleOn() => isOn = true;
