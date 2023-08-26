@@ -87,6 +87,7 @@ public class PlayerControllerPC : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             Debug.Log("DEF J Down");
+            Attack();
             ani.Attack1H();
         }
         if (Input.GetKeyDown(KeyCode.C))
@@ -117,6 +118,10 @@ public class PlayerControllerPC : MonoBehaviour
         Roll();
         ani.SetAnimationMove(MathF.Abs(horizontal), MathF.Abs(vertical));
         
+    }
+    private void Attack()
+    {
+        transform.DOMove(transform.position + targetmove, 0.2f);
     }
     private void Move()
     {
