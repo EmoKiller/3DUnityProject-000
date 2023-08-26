@@ -15,23 +15,23 @@ public class HeroAnimatorController : MonoBehaviour
         
         if (Input.GetKey(KeyCode.LeftShift) && (Horizontal != 0 || Vertical != 0))
         {
-            _Animator.SetInteger("State", 2);
+            _Animator.SetInteger("State", 3);
         }
         else if (Horizontal != 0 || Vertical != 0)
         {
-            _Animator.SetInteger("State", 1);
+            _Animator.SetInteger("State", 2);
         }
         else
         {
             _Animator.SetInteger("State", 0);
         }
     }
-    public void Attack()
+    public void Attack1H()
     {
-        _Animator.SetTrigger("Slash");
+        _Animator.SetTrigger("Slash1H");
     }
     public void Rolling()
     {
-        _Animator.SetTrigger("Rolling");
+        _Animator.SetInteger("State", 1);
     }
 }

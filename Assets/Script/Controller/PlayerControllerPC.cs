@@ -8,15 +8,17 @@ using UnityEngine;
 
 public class PlayerControllerPC : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float moveSpeed = 4f;
 
     [SerializeField] private float smoothTime = 0.01f;
     [SerializeField] private float mutiRun = 1f;
     //Rolling
     [SerializeField] private float CounttimeStopRoll = 0f;
     [SerializeField] private float timeStopRoll = 0.8f;
-    [SerializeField] private float powerPushRoll = 100f;
-    private bool isRolling = false;
+    [SerializeField] private float powerPushRoll = 200f;
+
+    public bool isRolling = false;
+    public bool isJump = false;
     public float horizontal { get; set; }
     public float vertical { get; set; }
     public bool isAlive { get; private set; }
@@ -33,6 +35,8 @@ public class PlayerControllerPC : MonoBehaviour
 
     private void Awake()
     {
+        
+
         rb = GetComponent<Rigidbody>();
         ani = GetComponent<HeroAnimatorController>();
         directionMove = GetComponentsInChildren<ChildrenDirectionMove>().ToList();
@@ -54,10 +58,21 @@ public class PlayerControllerPC : MonoBehaviour
         //    horizontal = Input.GetAxis("Horizontal");
         //    vertical = Input.GetAxis("Vertical");
         //}
+
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        
-        
+        if (horizontalDown || verticalDown)
+        {
+            targetmove = targetVelocity.normalized;
+        }
+        else if (!horizontalDown && !verticalDown)
+        {
+            targetmove = Vector3.zero;
+        }
+        if (!isJump)
+        {
+            mutiRun = Input.GetKey(KeyCode.LeftShift) && (horizontal != 0 || vertical != 0) ? 1.5f : 1f;
+        }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
         {
             int num = horizontal > 0 ? 3 : 2;
@@ -69,9 +84,10 @@ public class PlayerControllerPC : MonoBehaviour
             InvokeMove(num);
         }
 
-        if (Input.GetKey(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("DEF K Down");
+            Debug.Log("DEF J Down");
+            ani.Attack1H();
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -86,34 +102,34 @@ public class PlayerControllerPC : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            if (isJump)
+                return;
+            isJump = true;
             Debug.Log("Roll Space Down");
             Jump();
         }
-        mutiRun = Input.GetKey(KeyCode.LeftShift) && (horizontal != 0 || vertical != 0) ? 1.5f : 1f;
-
+        
+        
     }
     private void FixedUpdate()
     {
         Move();
-        //ani.SetAnimationMove(MathF.Abs(horizontal), MathF.Abs(vertical));
         Roll();
+        ani.SetAnimationMove(MathF.Abs(horizontal), MathF.Abs(vertical));
+        
     }
     private void Move()
     {
-        if (horizontalDown || verticalDown)
-        {
-            targetmove = targetVelocity.normalized;
-
-        }
         if (!isRolling)
         {
             targetVelocity = new Vector3(horizontal,0, vertical) * moveSpeed * mutiRun;
             rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref refVelocity, smoothTime);
         }
+        
     }
     private void Jump()
     {
-        transform.DOJump(transform.localPosition + targetmove, 1f,1,0.5f);
+        transform.DOJump(transform.localPosition + targetmove * 1.5f , 1f, 1, 0.3f);
     }
     private void Roll()
     {
@@ -149,6 +165,14 @@ public class PlayerControllerPC : MonoBehaviour
         foreach (var Move in directionMove)
         {
             Move.myEvent.Invoke();
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            Debug.Log("on Ground");
+            isJump = false;
         }
     }
 }

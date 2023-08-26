@@ -19,7 +19,7 @@ public class ChildrenDirectionMove : MonoBehaviour
     {
         if (isOn)
             OnSelected?.Invoke(direction);
-        isOn = false;
+        ToggleOff();
     }
     public void ToggleOn() => isOn = true;
 
