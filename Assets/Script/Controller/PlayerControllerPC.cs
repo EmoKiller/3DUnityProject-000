@@ -16,9 +16,11 @@ public class PlayerControllerPC : MonoBehaviour
     [SerializeField] private float CounttimeStopRoll = 0f;
     [SerializeField] private float timeStopRoll = 0.8f;
     [SerializeField] private float powerPushRoll = 200f;
-
+    //jump
+    [SerializeField] private float timeCountJump = 1f;
     public bool isRolling = false;
     public bool isJump = false;
+    public bool canJump = true;
     public float horizontal { get; set; }
     public float vertical { get; set; }
     public bool isAlive { get; private set; }
@@ -61,14 +63,8 @@ public class PlayerControllerPC : MonoBehaviour
 
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        if (horizontalDown || verticalDown)
-        {
-            targetmove = targetVelocity.normalized;
-        }
-        else if (!horizontalDown && !verticalDown)
-        {
-            targetmove = Vector3.zero;
-        }
+        
+        
         if (!isJump)
         {
             mutiRun = Input.GetKey(KeyCode.LeftShift) && (horizontal != 0 || vertical != 0) ? 1.5f : 1f;
@@ -97,17 +93,19 @@ public class PlayerControllerPC : MonoBehaviour
                 return;
             Debug.Log("Roll Space Down");
             isRolling = true;
-            rb.velocity = targetmove;
 
             
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isJump)
+            if (!canJump)
                 return;
             isJump = true;
-            Debug.Log("Roll Space Down");
+            timeCountJump = 1f;
             Jump();
+            canJump = false;
+            Debug.Log("Roll Space Down");
+            
         }
         
         
@@ -116,6 +114,7 @@ public class PlayerControllerPC : MonoBehaviour
     {
         Move();
         Roll();
+        
         ani.SetAnimationMove(MathF.Abs(horizontal), MathF.Abs(vertical));
         
     }
@@ -125,6 +124,10 @@ public class PlayerControllerPC : MonoBehaviour
     }
     private void Move()
     {
+        if (horizontalDown || verticalDown)
+        {
+            targetmove = targetVelocity.normalized;
+        }
         if (!isRolling)
         {
             targetVelocity = new Vector3(horizontal,0, vertical) * moveSpeed * mutiRun;
@@ -134,6 +137,10 @@ public class PlayerControllerPC : MonoBehaviour
     }
     private void Jump()
     {
+        if (!horizontalDown && !verticalDown)
+        {
+            targetmove = Vector3.zero;
+        }
         transform.DOJump(transform.localPosition + targetmove * 1.5f , 1f, 1, 0.3f);
     }
     private void Roll()
@@ -178,6 +185,28 @@ public class PlayerControllerPC : MonoBehaviour
         {
             Debug.Log("on Ground");
             isJump = false;
+        }
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            if (canJump)
+                return;
+            timeCountJump -= Time.deltaTime;
+            if (timeCountJump <= 0)
+            {
+                canJump = true;
+                
+            }
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            
+            
         }
     }
 }
