@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3144,7 +3144,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2072833497726775048}
-  - component: {fileID: 2072833497726775046}
   - component: {fileID: 2072833497726775044}
   - component: {fileID: 2072833497726775045}
   - component: {fileID: 2072833497726775050}
@@ -15571,31 +15570,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &2072833497726775046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 974003821002202898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 034ccd4026e2755459742e4325490e4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 4
-  smoothTime: 0.01
-  mutiRun: 1
-  CounttimeStopRoll: 0
-  timeStopRoll: 0.8
-  powerPushRoll: 200
-  isRolling: 0
-  isJump: 0
-  targetmove: {x: 0, y: 0, z: 0}
-  ani: {fileID: 0}
-  rb: {fileID: 0}
-  directionMove:
-  - {fileID: 0}
 --- !u!4 &2072833497726775048
 Transform:
   m_ObjectHideFlags: 0

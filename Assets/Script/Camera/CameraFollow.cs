@@ -23,9 +23,16 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        
+    }
+    
+    private void LateUpdate()
+    {
+        transform.position = Vector3.SmoothDamp(transform.position, playerTransf.transform.position + offset, ref vecref, smooth);
         if (player.isRolling || player.isJump)
         {
-            smooth += Time.deltaTime * 1.8f;
+            smooth += Time.deltaTime * 1.1f;
             timeCount = 1.2f;
             endMove = false;
         }
@@ -39,12 +46,5 @@ public class CameraFollow : MonoBehaviour
                 endMove = true;
             }
         }
-        
-    }
-    
-    private void LateUpdate()
-    {
-        transform.position = Vector3.SmoothDamp(transform.position, playerTransf.transform.position + offset, ref vecref, smooth);
-
     }
 }
