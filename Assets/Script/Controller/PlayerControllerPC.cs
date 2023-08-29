@@ -17,7 +17,8 @@ public class PlayerControllerPC : MonoBehaviour
     [SerializeField] private float timeCountRoll = 0.8f;
     [SerializeField] private float powerPushRoll = 200f;
     //jump
-    [SerializeField] private float timeCountJump = 0.5f;
+    [SerializeField] private float timeCanJump = 0.5f;
+    [SerializeField] private float timeCanRoll = 2f;
     public bool isRolling = false;
     public bool isJump = false;
     public bool canJump = true;
@@ -33,54 +34,47 @@ public class PlayerControllerPC : MonoBehaviour
     [SerializeField] private Vector3 targetmove;
     [SerializeField] private HeroAnimatorController ani = null;
     [SerializeField] private Rigidbody rb = null;
-    [SerializeField] private List<ChildrenDirectionMove> directionMove = null;
-    //[SerializeField] private JoyStickLManager joystickLManager = null;
+    [SerializeField] private ManagerDirectionMove directionMoves = null;
+    [SerializeField] private JoyStickLManager joystickLManager = null;
+    int num = 0;
 
     private void Awake()
     {
-        
-
         rb = GetComponent<Rigidbody>();
         ani = GetComponent<HeroAnimatorController>();
-        directionMove = GetComponentsInChildren<ChildrenDirectionMove>().ToList();
-        foreach (var Move in directionMove)
-            Move.OnSelected = OnTabSelected;
-        //joystickLManager = GameObject.FindGameObjectWithTag("JoyStickManager").GetComponent<JoyStickLManager>();
+        directionMoves = GetComponentInChildren<ManagerDirectionMove>();
+        joystickLManager = GameObject.FindGameObjectWithTag("JoyStickManager").GetComponent<JoyStickLManager>();
         isAlive = true;
+        
     }
-    void Start()
-    {
-        InvokeMove(1);
-
-    }
-
     void Update()
     {
-        //if (!joystickLManager.joystickMove)
-        //{
-        //    horizontal = Input.GetAxis("Horizontal");
-        //    vertical = Input.GetAxis("Vertical");
-        //}
+        
+        if (!joystickLManager.joystickMove)
+        {
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+        }
 
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        //horizontal = Input.GetAxis("Horizontal");
+        //vertical = Input.GetAxis("Vertical");
         
         //Run
         if (!isJump || !isRolling)
         {
             mutiRun = Input.GetKey(KeyCode.LeftShift) && (horizontal != 0 || vertical != 0) ? 1.5f : 1f;
         }
+        //move
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
         {
-            int num = horizontal > 0 ? 3 : 2;
-            InvokeMove(num);
+            num = horizontal > 0 ? 3 : 2;
         }
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
         {
-            int num = vertical > 0 ? 1 : 0;
-            InvokeMove(num);
+            num = vertical > 0 ? 1 : 0;
         }
-
+        directionMoves.SetActiveDirectionMove((DirectionMove)num);
+        //
         if (Input.GetKeyDown(KeyCode.J))
         {
             Debug.Log("DEF J Down");
@@ -90,22 +84,22 @@ public class PlayerControllerPC : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             ani.Rolling();
-            if (isRolling)
+            if (!canRolling)
                 return;
             timeCountRoll = 0.8f;
             isRolling = true;
+            canRolling = false;
+            StartCoroutine(TimeCountDownRoll(timeCanRoll));
 
-            
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (!canJump)
                 return;
             isJump = true;
-            timeCountJump = 0.3f;
             Jump();
             canJump = false;
-            
+            StartCoroutine(TimeCountDownJump(timeCanJump));
         }
         
         
@@ -129,6 +123,7 @@ public class PlayerControllerPC : MonoBehaviour
     {
         if (horizontalDown || verticalDown)
         {
+            //targetmove = targetVelocity.normalized;
             targetmove = targetVelocity.normalized;
         }
     }
@@ -172,22 +167,6 @@ public class PlayerControllerPC : MonoBehaviour
             }
         }
     }
-    private void OnTabSelected(DirectionMove type)
-    {
-        foreach (var move in directionMove)
-        {
-            move.gameObject.SetActive(move.direction == type);
-        }
-        
-    }
-    private void InvokeMove(int num)
-    {
-        directionMove[num].ToggleOn();
-        foreach (var Move in directionMove)
-        {
-            Move.myEvent.Invoke();
-        }
-    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Ground"))
@@ -201,12 +180,12 @@ public class PlayerControllerPC : MonoBehaviour
     {
         if (collision.collider.CompareTag("Ground"))
         {
-            if (timeCountJump > 0)
-                timeCountJump -= Time.deltaTime;
-            if (timeCountJump <= 0)
-            {
-                canJump = true;
-            }
+            //if (timeCountJump > 0)
+            //    timeCountJump -= Time.deltaTime;
+            //if (timeCountJump <= 0)
+            //{
+            //    canJump = true;
+            //}
             //StartCoroutine(TimeCountDown(canJump, 0.5f));
         }
     }
@@ -218,11 +197,14 @@ public class PlayerControllerPC : MonoBehaviour
             
         }
     }
-    IEnumerator TimeCountDown(bool can,float time)
+    IEnumerator TimeCountDownJump(float time)
     {
-        
         yield return new WaitForSeconds(time);
-        can = true;
-        
+        canJump = true;
+    }
+    IEnumerator TimeCountDownRoll(float time)
+    {
+        yield return new WaitForSeconds(time);
+        canRolling = true;
     }
 }

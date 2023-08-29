@@ -3378,6 +3378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7897225926215753874}
   - component: {fileID: 7897225926215753884}
+  - component: {fileID: 4435302096897105716}
   - component: {fileID: 2757641631881336005}
   - component: {fileID: 7897225926215753886}
   - component: {fileID: 7897225926215753887}
@@ -3424,16 +3425,31 @@ MonoBehaviour:
   moveSpeed: 3
   smoothTime: 0.01
   mutiRun: 1
-  CounttimeStopRoll: 0
-  timeStopRoll: 0.8
+  timeCountRoll: 0.8
   powerPushRoll: 100
+  timeCountJump: 0.5
   isRolling: 0
   isJump: 0
+  canJump: 1
+  canRolling: 1
   targetmove: {x: 0, y: 0, z: 0}
   ani: {fileID: 0}
   rb: {fileID: 0}
   directionMove:
   - {fileID: 0}
+--- !u!114 &4435302096897105716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8996188086511931528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566d7ee0942a349408903d188f0dce00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directionMove: []
 --- !u!114 &2757641631881336005
 MonoBehaviour:
   m_ObjectHideFlags: 0
