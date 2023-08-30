@@ -6,8 +6,10 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerControllerPC : MonoBehaviour
+public class PlayerControllerPC : CombatSystem
 {
+
+    public float HP = 100;
     [SerializeField] private float moveSpeed = 4f;
 
     [SerializeField] private float smoothTime = 0.01f;
@@ -25,7 +27,7 @@ public class PlayerControllerPC : MonoBehaviour
     public bool canRolling = true;
     public float horizontal { get; set; }
     public float vertical { get; set; }
-    public bool isAlive { get; private set; }
+    //public bool isAlive { get; private set; }
 
     private bool horizontalDown => horizontal != 0;
     private bool verticalDown => vertical != 0;
@@ -38,27 +40,27 @@ public class PlayerControllerPC : MonoBehaviour
     [SerializeField] private JoyStickLManager joystickLManager = null;
     int num = 0;
 
+    
+    public ParticleSystem slash;
+    protected override bool isAlive => HP > 0;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         ani = GetComponent<HeroAnimatorController>();
         directionMoves = GetComponentInChildren<ManagerDirectionMove>();
         joystickLManager = GameObject.FindGameObjectWithTag("JoyStickManager").GetComponent<JoyStickLManager>();
-        isAlive = true;
+        
         
     }
     void Update()
     {
-        
+        // Pc && Mobile : Controller 
         if (!joystickLManager.joystickMove)
         {
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
         }
-
-        //horizontal = Input.GetAxis("Horizontal");
-        //vertical = Input.GetAxis("Vertical");
-        
         //Run
         if (!isJump || !isRolling)
         {
@@ -77,9 +79,15 @@ public class PlayerControllerPC : MonoBehaviour
         //
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("DEF J Down");
             Attack();
             ani.Attack1H();
+            Instantiate(slash, transform.position + (targetmove*3f), transform.rotation);
+            
+
+
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -104,6 +112,7 @@ public class PlayerControllerPC : MonoBehaviour
         
         
     }
+    
     private void FixedUpdate()
     {
         Move();
@@ -197,6 +206,10 @@ public class PlayerControllerPC : MonoBehaviour
             
         }
     }
+    public override void ShowInfomation()
+    {
+        base.ShowInfomation();
+    }
     IEnumerator TimeCountDownJump(float time)
     {
         yield return new WaitForSeconds(time);
@@ -207,4 +220,5 @@ public class PlayerControllerPC : MonoBehaviour
         yield return new WaitForSeconds(time);
         canRolling = true;
     }
+    
 }

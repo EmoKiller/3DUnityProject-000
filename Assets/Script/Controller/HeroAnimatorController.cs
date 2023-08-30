@@ -34,4 +34,8 @@ public class HeroAnimatorController : MonoBehaviour
     {
         _Animator.SetInteger("State", 1);
     }
+    public void Dead()
+    {
+        _Animator.SetInteger("State", 9);
+    }
 }
