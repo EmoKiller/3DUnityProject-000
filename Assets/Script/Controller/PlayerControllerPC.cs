@@ -21,6 +21,7 @@ public class PlayerControllerPC : CombatSystem
     //jump
     [SerializeField] private float timeCanJump = 0.5f;
     [SerializeField] private float timeCanRoll = 2f;
+    public bool CanAction = true;
     public bool isRolling = false;
     public bool isJump = false;
     public bool canJump = true;

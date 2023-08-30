@@ -30,6 +30,7 @@ MonoBehaviour:
     referenceMode: 2
     serializationDepthLimit: 64
     assemblyNames:
+    - Analytics
     - Assembly-CSharp
     - Assembly-CSharp-firstpass
     - CFXR.WelcomeScreen
@@ -37,6 +38,7 @@ MonoBehaviour:
     - CFXREditor
     - CFXRRuntime
     - KinoBloom.Runtime
+    - Purchasing.Common
     - ToonyColorsPro.Demo.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0

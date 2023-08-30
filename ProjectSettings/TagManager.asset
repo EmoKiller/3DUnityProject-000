@@ -9,6 +9,8 @@ TagManager:
   - JoyStick
   - JoyStickHandle
   - Enemy
+  - FxTemporaire
+  - Chest
   layers:
   - Default
   - TransparentFX
