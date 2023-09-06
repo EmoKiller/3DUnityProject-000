@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grass : CombatSystem
+public class Grass 
 {
     
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
 }

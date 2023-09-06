@@ -3244,10 +3244,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 2
-  isOn: 0
-  myEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8996188086477379129
 GameObject:
   m_ObjectHideFlags: 0
@@ -3333,10 +3329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 0
-  isOn: 0
-  myEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8996188086498198091
 GameObject:
   m_ObjectHideFlags: 0
@@ -3383,7 +3375,7 @@ GameObject:
   - component: {fileID: 7897225926215753886}
   - component: {fileID: 7897225926215753887}
   - component: {fileID: 7897225926215753872}
-  - component: {fileID: 7897225926215753873}
+  - component: {fileID: 1576637614709127648}
   m_Layer: 0
   m_Name: Human4D
   m_TagString: Player
@@ -3422,12 +3414,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 034ccd4026e2755459742e4325490e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 100
   moveSpeed: 3
   smoothTime: 0.01
   mutiRun: 1
   timeCountRoll: 0.8
   powerPushRoll: 100
-  timeCountJump: 0.5
+  timeCanJump: 0.5
+  timeCanRoll: 2
+  CanAction: 1
   isRolling: 0
   isJump: 0
   canJump: 1
@@ -3435,8 +3430,9 @@ MonoBehaviour:
   targetmove: {x: 0, y: 0, z: 0}
   ani: {fileID: 0}
   rb: {fileID: 0}
-  directionMove:
-  - {fileID: 0}
+  directionMoves: {fileID: 0}
+  joystickLManager: {fileID: 0}
+  slash: {fileID: 0}
 --- !u!114 &4435302096897105716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3449,7 +3445,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566d7ee0942a349408903d188f0dce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionMove: []
 --- !u!114 &2757641631881336005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3510,8 +3505,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!136 &7897225926215753873
-CapsuleCollider:
+--- !u!65 &1576637614709127648
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3520,10 +3515,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.65
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.77, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.8, z: 1}
+  m_Center: {x: 0, y: 0.89, z: 0.3}
 --- !u!1 &8996188086529911979
 GameObject:
   m_ObjectHideFlags: 0
@@ -4719,10 +4713,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 1
-  isOn: 0
-  myEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8996188086699557348
 GameObject:
   m_ObjectHideFlags: 0
@@ -5908,10 +5898,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 3
-  isOn: 0
-  myEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8996188086843002120
 GameObject:
   m_ObjectHideFlags: 0
