@@ -6,7 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerControllerPC : CombatSystem
+public class PlayerControllerPC : MonoBehaviour
 {
 
     public float HP = 100;
@@ -43,7 +43,7 @@ public class PlayerControllerPC : CombatSystem
 
     
     public ParticleSystem slash;
-    protected override bool isAlive => HP > 0;
+    //protected override bool isAlive => HP > 0;
 
     private void Awake()
     {
@@ -89,6 +89,7 @@ public class PlayerControllerPC : CombatSystem
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
+            transform.rotation = Quaternion.Euler(0f, 50f, 0f);
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -101,15 +102,15 @@ public class PlayerControllerPC : CombatSystem
             StartCoroutine(TimeCountDownRoll(timeCanRoll));
 
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!canJump)
-                return;
-            isJump = true;
-            Jump();
-            canJump = false;
-            StartCoroutine(TimeCountDownJump(timeCanJump));
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    if (!canJump)
+        //        return;
+        //    isJump = true;
+        //    Jump();
+        //    canJump = false;
+        //    StartCoroutine(TimeCountDownJump(timeCanJump));
+        //}
         
         
     }
@@ -142,12 +143,12 @@ public class PlayerControllerPC : CombatSystem
         TargetMoveZero();
         transform.DOMove(transform.position + targetmove, 0.2f);
     }
-    private void Jump()
-    {
-        TargetMoveZero();
-        //transform.DOJump(transform.localPosition + targetmove * 1.5f, 1f, 1, 0.3f).SetEase(Ease.InSine);
-        rb.DOJump(transform.localPosition + targetmove * 1.5f, 1f, 1, 0.3f).SetEase(Ease.OutSine);
-    }
+    //private void Jump()
+    //{
+    //    TargetMoveZero();
+    //    //transform.DOJump(transform.localPosition + targetmove * 1.5f, 1f, 1, 0.3f).SetEase(Ease.InSine);
+    //    rb.DOJump(transform.localPosition + targetmove * 1.5f, 1f, 1, 0.3f).SetEase(Ease.OutSine);
+    //}
     private void Move()
     {
         TargetMoveNomal();
@@ -185,6 +186,7 @@ public class PlayerControllerPC : CombatSystem
             isJump = false;
             
         }
+        
     }
     private void OnCollisionStay(Collision collision)
     {
@@ -198,6 +200,7 @@ public class PlayerControllerPC : CombatSystem
             //}
             //StartCoroutine(TimeCountDown(canJump, 0.5f));
         }
+        
     }
     private void OnCollisionExit(Collision collision)
     {
@@ -207,10 +210,11 @@ public class PlayerControllerPC : CombatSystem
             
         }
     }
-    public override void ShowInfomation()
-    {
-        base.ShowInfomation();
-    }
+    
+    //public override void ShowInfomation()
+    //{
+    //    base.ShowInfomation();
+    //}
     IEnumerator TimeCountDownJump(float time)
     {
         yield return new WaitForSeconds(time);

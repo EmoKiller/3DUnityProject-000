@@ -38,6 +38,7 @@ MonoBehaviour:
     - CFXREditor
     - CFXRRuntime
     - KinoBloom.Runtime
+    - PsdPlugin
     - Purchasing.Common
     - ToonyColorsPro.Demo.Editor
     showAdvancedSettings: 0

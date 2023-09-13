@@ -14,24 +14,23 @@ public class ChestHandle : MonoBehaviour
     {
         ani = GetComponent<Animator>();
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.collider.CompareTag("Player") && !isOpen)
+        if (other.CompareTag("Player") && !isOpen)
         {
-            
+
             Debug.Log("Show Button Action");
             showUI.gameObject.SetActive(true);
-            
+
         }
     }
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             if (Input.GetKeyDown(KeyCode.E) && !isOpen)
             {
-                ani.SetBool("Open",true);
+                ani.SetBool("Open", true);
                 StartCoroutine(Open());
                 Debug.Log("Press E");
                 isOpen = true;
@@ -40,14 +39,15 @@ public class ChestHandle : MonoBehaviour
             }
         }
     }
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             Debug.Log("Off Button Action");
             showUI.gameObject.SetActive(false);
         }
     }
+    
 
     IEnumerator Open()
     {
